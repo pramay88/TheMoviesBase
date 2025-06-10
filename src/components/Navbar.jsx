@@ -1,12 +1,14 @@
 import React from "react";
 import { Link } from "react-router-dom";
+import Logo from "../assets/TheMoviesBase.png"
+
 function Navbar(){
-    const imgSrc = "https://upload.wikimedia.org/wikipedia/commons/thumb/6/69/IMDB_Logo_2016.svg/575px-IMDB_Logo_2016.svg.png?20200406194337";
+    
     return(
-        <div className="flex border space-x-8 items-center pl-3 py-4">
-            <img src={imgSrc} className="w-[80px]"></img>   
-            <Link to="/" className="text-blue-400 text-3xl font-bold">Home</Link>
-            <Link to="/watchlist" className="text-blue-400 text-3xl font-bold">Watchlist</Link>
+        <div className="flex bg-[#1A1A1A] border space-x-8 items-center pl-3 py-4">
+            <Link to="/" className="text-white text-3xl font-bold"> <img src={Logo} className="w-[150px]" alt="TheMoviesBase"></img> </Link>
+            <Link to="/" className="text-white text-3xl font-bold">Home</Link>
+            <Link to="/watchlist" className="text-white text-3xl font-bold">Watchlist</Link>
         </div>
     );
 }

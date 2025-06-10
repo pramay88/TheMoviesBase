@@ -1,1 +1,9 @@
 @import "tailwindcss";
+
+body {
+    /* background-color: black; */
+    /* color: white; Optional: make text visible */
+    margin: 0;
+    padding: 0;
+    font-family: "Roboto", "Helvetica Neue", "Helvetica", "Arial", sans-serif;
+}
