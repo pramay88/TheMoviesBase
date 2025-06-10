@@ -6,6 +6,8 @@ import Banner from './components/Banner';
 import { useEffect, useState } from 'react';
 import axios from 'axios';
 
+const TMDB_API_KEY = import.meta.env.VITE_TMDB_API_KEY;
+
 function App() {
 
     let [watchlist, setWatchlist] = useState([])
@@ -15,7 +17,7 @@ function App() {
     useEffect(() => {
     const fetchBannerMovie = async () => {
       try {
-        const res = await axios.get(`https://api.themoviedb.org/3/trending/all/day?language=en-US&api_key=81259944aa7da245930b453f452d7bdf`);
+        const res = await axios.get(`https://api.themoviedb.org/3/trending/all/day?language=en-US&api_key=${TMDB_API_KEY}`);
         setbannerMovie(res.data.results[0]);
       } catch (error) {
         console.error("Error fetching trending movie:", error);
