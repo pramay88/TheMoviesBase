@@ -1,20 +1,23 @@
-export async function handler(event) {
-  const { page = 1 } = event.queryStringParameters;
-  const apiKey = process.env.VITE_TMDB_API_KEY;
+// netlify/functions/fetchMovies.js
+import axios from "axios";
 
-  const url = `https://api.themoviedb.org/3/movie/popular?api_key=${apiKey}&language=en-US&page=${page}`;
+export default async (req, res) => {
+  const API_KEY = process.env.VITE_TMDB_API_KEY;
+  const { page } = req.query;
 
   try {
-    const response = await fetch(url);
-    const data = await response.json();
-    return {
-      statusCode: 200,
-      body: JSON.stringify(data),
-    };
+    const response = await axios.get(
+      `https://api.themoviedb.org/3/movie/popular`,
+      {
+        params: {
+          api_key: API_KEY,
+          language: "en-US",
+          page: page || 1,
+        },
+      }
+    );
+    res.status(200).json(response.data);
   } catch (error) {
-    return {
-      statusCode: 500,
-      body: JSON.stringify({ message: 'Failed to fetch movies', error }),
-    };
+    res.status(500).json({ error: "Failed to fetch movies" });
   }
-}
+};

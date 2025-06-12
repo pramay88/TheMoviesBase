@@ -44,9 +44,9 @@ function Movies({handleAddToWatchlist, handleRemoveFromWatchlist, watchlist}){
             </div>
             <div className='flex flex-row flex-wrap justify-around m-10 gap-8'>
 
-                {movies.map((movieObj)=>{
-                    return <Moviecard key={movieObj.id} watchlist={watchlist} movieObj={movieObj} poster_path={movieObj.poster_path} name={movieObj.original_title} handleAddToWatchlist={handleAddToWatchlist} handleRemoveFromWatchlist={handleRemoveFromWatchlist }/>
-                })}
+                {Array.isArray(movies) && movies.map((movieObj) => (
+  <Moviecard key={movieObj.id} movieObj={movieObj} />
+))}
 
             </div>
             
