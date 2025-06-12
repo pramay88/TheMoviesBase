@@ -2,7 +2,8 @@
 import axios from "axios";
 
 export default async (req, res) => {
-  const API_KEY = process.env.VITE_TMDB_API_KEY;
+  const API_KEY = import.meta.env.VITE_TMDB_API_KEY;
+
   const { page } = req.query;
 
   try {
