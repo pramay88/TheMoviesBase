@@ -18,7 +18,7 @@ function Movies({handleAddToWatchlist, handleRemoveFromWatchlist, watchlist}){
     }
 
     useEffect(()=>{
-        axios.get(`https://api.themoviedb.org/3/movie/popular?api_key=81259944aa7da245930b453f452d7bdf&language=en-US&page=${pageNo}`).then((res) =>{
+        axios.get(`https://api.themoviedb.org/3/movie/popular?api_key=${API_KEY}&language=en-US&page=${pageNo}`).then((res) =>{
             setMovies(res.data.results);
         })
     }, [pageNo])
