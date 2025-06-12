@@ -121,26 +121,28 @@ function Moviecard({ movieObj, watchlist, fetchWatchlist }) {
 
   return (
     <div
-      className="relative h-[50vh] w-[200px] bg-cover bg-center rounded-xl hover:scale-110 duration-300 hover:cursor-pointer flex flex-col justify-between items-end"
+      className="relative aspect-[2/3] w-full max-w-[200px] mx-auto bg-cover bg-center rounded-xl hover:scale-105 sm:hover:scale-110 duration-300 hover:cursor-pointer flex flex-col justify-between items-end shadow-lg hover:shadow-xl transition-all"
       style={{
         backgroundImage: `url(https://image.tmdb.org/t/p/original/${movieObj.poster_path})`,
       }}
     >
+      {/* Bookmark Button - Touch-friendly on mobile */}
       <div
         onClick={() => 
           added 
             ? handleRemoveFromWatchlist(movieObj) 
             : handleAddToWatchlist(movieObj)
         }
-        className={`m-2.5 absolute right-0 bg-gray-900/60 rounded-xs p-1 text-xl transition-all duration-200 ${
+        className={`m-2 sm:m-2.5 absolute top-2 right-2 bg-gray-900/60 backdrop-blur-sm rounded-lg p-2 sm:p-1 text-lg sm:text-xl transition-all duration-200 ${
           loading 
             ? 'cursor-not-allowed opacity-50' 
-            : 'cursor-pointer hover:bg-gray-900/80'
+            : 'cursor-pointer hover:bg-gray-900/80 active:scale-95'
         } ${
           added 
             ? 'text-yellow-400' 
             : 'text-white/70 hover:text-white/90'
         }`}
+        style={{ minHeight: '40px', minWidth: '40px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}
       >
         {loading ? (
           <i className="fa-solid fa-spinner fa-spin"></i>
@@ -151,11 +153,24 @@ function Moviecard({ movieObj, watchlist, fetchWatchlist }) {
         )}
       </div>
 
-      <div className="absolute bottom-0 text-white text-xl w-full p-2 text-center bg-gray-900/60 rounded-b-xl">
-        {movieObj.title || movieObj.name}
+      {/* Title Section - Responsive text and padding */}
+      <div className="absolute bottom-0 text-white text-sm sm:text-base lg:text-lg xl:text-xl w-full p-2 sm:p-3 text-center bg-gradient-to-t from-gray-900/90 via-gray-900/70 to-transparent rounded-b-xl leading-tight">
+        <div className="line-clamp-2 sm:line-clamp-1 font-medium">
+          {movieObj.title || movieObj.name}
+        </div>
       </div>
+
+      {/* Fallback for missing poster */}
+      {!movieObj.poster_path && (
+        <div className="absolute inset-0 bg-gray-800 rounded-xl flex items-center justify-center">
+          <div className="text-gray-400 text-center p-4">
+            <i className="fa-solid fa-film text-3xl sm:text-4xl mb-2 block"></i>
+            <div className="text-xs sm:text-sm">No Image</div>
+          </div>
+        </div>
+      )}
     </div>
-  );
+);
 }
 
 export default Moviecard;
