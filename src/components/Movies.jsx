@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import Moviecard from './Moviecard'
 
 import axios from 'axios'
-import Pagination from './pagination';
+import Pagination from './Pagination';
 
 function Movies({handleAddToWatchlist, handleRemoveFromWatchlist, watchlist}){
 
