@@ -43,5 +43,3 @@ function Movies({handleAddToWatchlist, handleRemoveFromWatchlist, watchlist}){
     );
 }
 export default Movies;
-
-// https://api.themoviedb.org/3/movie/popular?api_key=81259944aa7da245930b453f452d7bdf&language=en
