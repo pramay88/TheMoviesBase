@@ -7,6 +7,8 @@ import Pagination from './Pagination';
 const API_KEY = import.meta.env.VITE_TMDB_API_KEY; 
 function Movies({handleAddToWatchlist, handleRemoveFromWatchlist, watchlist}){
 
+    const isLocal = import.meta.env.DEV;
+
     const [movies, setMovies] = useState([]);
     const [pageNo, setPageNo] = useState(1);
 
@@ -18,11 +20,21 @@ function Movies({handleAddToWatchlist, handleRemoveFromWatchlist, watchlist}){
         setPageNo(pageNo+1)
     }
 
-    useEffect(()=>{
-        axios.get(`https://api.themoviedb.org/3/movie/popular?api_key=${API_KEY}&language=en-US&page=${pageNo}`).then((res) =>{
-            setMovies(res.data.results);
-        })
-    }, [pageNo])
+    useEffect(() => {
+    const fetchUrl = isLocal
+      ? `https://api.themoviedb.org/3/movie/popular?api_key=${API_KEY}&language=en-US&page=${pageNo}`
+      : `/.netlify/functions/fetchMovies?page=${pageNo}`;
+
+    axios.get(fetchUrl)
+      .then((res) => {
+        setMovies(res.data.results);
+      })
+      .catch((err) => {
+        console.error('Error fetching movies:', err);
+      });
+}, [pageNo]);
+
+
     
 
     return(
