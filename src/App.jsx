@@ -5,6 +5,12 @@ import {BrowserRouter, Routes, Route} from 'react-router-dom'
 import Banner from './components/Banner';
 import { useEffect, useState } from 'react';
 import axios from 'axios';
+import Login from './pages/Login';
+import Signup from './pages/Signup';
+import PrivateRoute from './components/PrivateRoute';
+import { auth } from "./firebaseConfig";
+import { AuthProvider } from './context/authContext';
+
 
 const TMDB_API_KEY = import.meta.env.VITE_TMDB_API_KEY;
 
@@ -51,23 +57,37 @@ function App() {
     
   return(
     <>
-    <BrowserRouter>
-      <Navbar/>
-      <Routes>
-          <Route path="/" element={
-            <>
-              <Banner bannerMovie={bannerMovie}/>
-              <Movies watchlist={watchlist} handleAddToWatchlist={handleAddToWatchlist} handleRemoveFromWatchlist={handleRemoveFromWatchlist}/>
-            </>
-          }
+    <AuthProvider>
+  <BrowserRouter>
+    <Navbar />
+    <Routes>
+      <Route path="/login" element={<Login />} />
+      <Route path="/signup" element={<Signup />} />
+
+      <Route path="/" element={
+        <>
+          <Banner bannerMovie={bannerMovie} />
+          <Movies 
+            watchlist={watchlist} 
+            handleAddToWatchlist={handleAddToWatchlist} 
+            handleRemoveFromWatchlist={handleRemoveFromWatchlist}
           />
-        <Route path="/watchlist" element={
-          <Watchlist watchlist={watchlist} setWatchlist={setWatchlist} handleRemoveFromWatchlist={handleRemoveFromWatchlist}/>
-        }
-        />
-      </Routes>
-      
-    </BrowserRouter>
+        </>
+      } />
+
+      <Route path="/watchlist" element={
+        <PrivateRoute>
+          <Watchlist 
+            watchlist={watchlist} 
+            setWatchlist={setWatchlist} 
+            handleRemoveFromWatchlist={handleRemoveFromWatchlist}
+          />
+        </PrivateRoute>
+      } />
+    </Routes>
+  </BrowserRouter>
+</AuthProvider>
+
     </>
   
   );
