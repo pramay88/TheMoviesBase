@@ -21,9 +21,8 @@ function Movies({handleAddToWatchlist, handleRemoveFromWatchlist, watchlist}){
     }
 
     useEffect(() => {
-    const fetchUrl = isLocal
-      ? `https://api.themoviedb.org/3/movie/popular?api_key=${API_KEY}&language=en-US&page=${pageNo}`
-      : `/.netlify/functions/fetchMovies?page=${pageNo}`;
+    const fetchUrl = `https://api.themoviedb.org/3/movie/popular?api_key=${API_KEY}&language=en-US&page=${pageNo}`;
+
 
     axios.get(fetchUrl)
       .then((res) => {
