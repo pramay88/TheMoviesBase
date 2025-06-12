@@ -4,6 +4,7 @@ import Moviecard from './Moviecard'
 import axios from 'axios'
 import Pagination from './Pagination';
 
+const API_KEY = import.meta.env.VITE_TMDB_API_KEY; 
 function Movies({handleAddToWatchlist, handleRemoveFromWatchlist, watchlist}){
 
     const [movies, setMovies] = useState([]);
