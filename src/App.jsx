@@ -12,7 +12,7 @@ import { auth } from "./firebaseConfig";
 import { AuthProvider } from './context/authContext';
 
 
-const TMDB_API_KEY = import.meta.env.VITE_TMDB_API_KEY;
+const API_KEY = import.meta.env.VITE_TMDB_API_KEY;
 
 function App() {
 
@@ -23,7 +23,7 @@ function App() {
     useEffect(() => {
     const fetchBannerMovie = async () => {
       try {
-        const res = await axios.get(`https://api.themoviedb.org/3/trending/all/day?language=en-US&api_key=${TMDB_API_KEY}`);
+        const res = await axios.get(`https://api.themoviedb.org/3/trending/all/day?language=en-US&api_key=${API_KEY}`);
         setbannerMovie(res.data.results[0]);
       } catch (error) {
         console.error("Error fetching trending movie:", error);
