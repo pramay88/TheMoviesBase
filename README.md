@@ -1,8 +1,10 @@
 # TheMoviesBase 🎬
 
-A modern movie discovery app inspired by [IMDb](https://imdb.com), built with **React**, **Node.js**, **Express**, and **Tailwind CSS**, using **The Movie Database (TMDB) API**.
+A modern movie discovery app inspired by [IMDb](https://imdb.com), built with **React**, **Node.js**, **Express**, and **Tailwind CSS**, **Firebase** using **The Movie Database (TMDB) API**.  
 
-![TheMoviesBase Logo](https://github.com/pramay88/TheMoviesBase/blob/main/src/assets/TheMoviesBase.png)
+[🌐Visit TheMoviesBase](https://themoviesbase.netlify.app)
+  
+[![TheMoviesBase Logo](https://raw.githubusercontent.com/pramay88/TheMoviesBase/main/src/assets/TheMoviesBase.png)](https://themoviesbase.netlify.app)
 
 ---
 
@@ -19,7 +21,7 @@ A modern movie discovery app inspired by [IMDb](https://imdb.com), built with **
 ## 🛠️ Tech Stack
 
 - **Frontend:** React, Tailwind CSS, React Router
-- **Backend:** Node.js, Express.js
+- **Backend:** Node.js, Express.js, Firebase
 - **API:** [TMDB API](https://www.themoviedb.org/documentation/api)
 - **Version Control:** Git + GitHub
 
