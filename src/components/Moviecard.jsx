@@ -103,113 +103,96 @@ function Moviecard({ movieObj, watchlist, fetchWatchlist }) {
     }
   };
 
-  // Don't render if user is not authenticated
-  if (!user) {
-    return (
+  return (
+    <div
+      className="
+        relative
+        aspect-[2/3]
+        w-full
+        sm:max-w-[200px]
+        mx-auto
+        bg-cover bg-center
+        rounded-xl
+        hover:scale-105 sm:hover:scale-110
+        duration-300
+        hover:cursor-pointer
+        flex flex-col justify-between items-end
+        shadow-lg hover:shadow-xl
+        transition-all
+      "
+      style={{
+        backgroundImage: movieObj.poster_path
+          ? `url(https://image.tmdb.org/t/p/original/${movieObj.poster_path})`
+          : undefined,
+        backgroundColor: !movieObj.poster_path ? "#2d3748" : undefined, // fallback color if no poster
+      }}
+    >
+      {/* Bookmark Button - Only show when user is logged in */}
+      {user && (
+        <button
+          type="button"
+          onClick={() =>
+            added
+              ? handleRemoveFromWatchlist(movieObj)
+              : handleAddToWatchlist(movieObj)
+          }
+          className={`
+            m-2 absolute top-2 right-2
+            bg-gray-900/60 backdrop-blur-sm rounded-lg
+            p-2
+            text-lg
+            transition-all duration-200
+            flex items-center justify-center
+            ${loading ? "cursor-not-allowed opacity-50" : "cursor-pointer hover:bg-gray-900/80 active:scale-95"}
+            ${added ? "text-yellow-400" : "text-white/70 hover:text-white/90"}
+          `}
+          style={{
+            minHeight: "40px",
+            minWidth: "40px",
+          }}
+          aria-label={added ? "Remove from Watchlist" : "Add to Watchlist"}
+          disabled={loading}
+        >
+          {loading ? (
+            <i className="fa-solid fa-spinner fa-spin"></i>
+          ) : added ? (
+            <i className="fa-solid fa-bookmark"></i>
+          ) : (
+            <i className="fa-regular fa-bookmark"></i>
+          )}
+        </button>
+      )}
+
+      {/* Fallback for missing poster */}
+      {!movieObj.poster_path && (
+        <div className="absolute inset-0 bg-gray-800 rounded-xl flex items-center justify-center">
+          <div className="text-gray-400 text-center p-4">
+            <i className="fa-solid fa-film text-3xl sm:text-4xl mb-2 block"></i>
+            <div className="text-xs sm:text-sm">No Image</div>
+          </div>
+        </div>
+      )}
+
+      {/* Movie Title */}
       <div
-        className="relative h-[50vh] w-[200px] bg-cover bg-center rounded-xl hover:scale-110 duration-300 hover:cursor-pointer flex flex-col justify-between items-end"
-        style={{
-          backgroundImage: `url(https://image.tmdb.org/t/p/original/${movieObj.poster_path})`,
-        }}
+        className="
+          absolute bottom-0
+          text-white
+          text-sm sm:text-base lg:text-lg
+          w-full
+          p-2 sm:p-3
+          text-center
+          bg-gradient-to-t from-gray-900/90 via-gray-900/70 to-transparent
+          rounded-b-xl
+          leading-tight
+        "
       >
-        <div className="absolute bottom-0 text-white text-xl w-full p-2 text-center bg-gray-900/60 rounded-b-xl">
+        <div className="line-clamp-2 sm:line-clamp-1 font-medium">
           {movieObj.title || movieObj.name}
         </div>
       </div>
-    );
-  }
-
-  return (
-  <div
-    className="
-      relative
-      aspect-[2/3]
-      w-full
-      sm:max-w-[200px]
-      mx-auto
-      bg-cover bg-center
-      rounded-xl
-      hover:scale-105 sm:hover:scale-110
-      duration-300
-      hover:cursor-pointer
-      flex flex-col justify-between items-end
-      shadow-lg hover:shadow-xl
-      transition-all
-    "
-    style={{
-      backgroundImage: movieObj.poster_path
-        ? `url(https://image.tmdb.org/t/p/original/${movieObj.poster_path})`
-        : undefined,
-      backgroundColor: !movieObj.poster_path ? "#2d3748" : undefined, // fallback color if no poster
-    }}
-  >
-    {/* Bookmark Button */}
-    {user && (
-      <button
-        type="button"
-        onClick={() =>
-          added
-            ? handleRemoveFromWatchlist(movieObj)
-            : handleAddToWatchlist(movieObj)
-        }
-        className={`
-          m-2 absolute top-2 right-2
-          bg-gray-900/60 backdrop-blur-sm rounded-lg
-          p-2
-          text-lg
-          transition-all duration-200
-          flex items-center justify-center
-          ${loading ? "cursor-not-allowed opacity-50" : "cursor-pointer hover:bg-gray-900/80 active:scale-95"}
-          ${added ? "text-yellow-400" : "text-white/70 hover:text-white/90"}
-        `}
-        style={{
-          minHeight: "40px",
-          minWidth: "40px",
-        }}
-        aria-label={added ? "Remove from Watchlist" : "Add to Watchlist"}
-        disabled={loading}
-      >
-        {loading ? (
-          <i className="fa-solid fa-spinner fa-spin"></i>
-        ) : added ? (
-          <i className="fa-solid fa-bookmark"></i>
-        ) : (
-          <i className="fa-regular fa-bookmark"></i>
-        )}
-      </button>
-    )}
-
-    {/* Fallback for missing poster */}
-    {!movieObj.poster_path && (
-      <div className="absolute inset-0 bg-gray-800 rounded-xl flex items-center justify-center">
-        <div className="text-gray-400 text-center p-4">
-          <i className="fa-solid fa-film text-3xl sm:text-4xl mb-2 block"></i>
-          <div className="text-xs sm:text-sm">No Image</div>
-        </div>
-      </div>
-    )}
-
-    {/* Movie Title */}
-    <div
-      className="
-        absolute bottom-0
-        text-white
-        text-sm sm:text-base lg:text-lg
-        w-full
-        p-2 sm:p-3
-        text-center
-        bg-gradient-to-t from-gray-900/90 via-gray-900/70 to-transparent
-        rounded-b-xl
-        leading-tight
-      "
-    >
-      <div className="line-clamp-2 sm:line-clamp-1 font-medium">
-        {movieObj.title || movieObj.name}
-      </div>
     </div>
-  </div>
-);
-
+  );
 }
 
 export default Moviecard;
