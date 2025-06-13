@@ -1,5 +1,6 @@
 import Watchlist from './components/Watchlist';
 import Movies from './components/Movies'
+import MoviesPage from './components/MoviesPage'; // Add this import
 import Navbar from './components/Navbar';
 import {BrowserRouter, Routes, Route} from 'react-router-dom'
 import Banner from './components/Banner';
@@ -10,7 +11,6 @@ import Signup from './pages/Signup';
 import PrivateRoute from './components/PrivateRoute';
 import { auth } from "./firebaseConfig";
 import { AuthProvider } from './context/authContext';
-
 
 const API_KEY = import.meta.env.VITE_TMDB_API_KEY;
 
@@ -32,7 +32,6 @@ function App() {
 
     fetchBannerMovie();
   }, []); // ✅ run once on initial load
-
 
     
     let handleAddToWatchlist = (movieObj) => {
@@ -73,6 +72,19 @@ function App() {
             handleRemoveFromWatchlist={handleRemoveFromWatchlist}
           />
         </>
+      } />
+
+      {/* Add the missing /movies route */}
+      <Route path="/movies" element={<MoviesPage />} />
+
+      {/* Add a search route - you can create a SearchPage component or redirect */}
+      <Route path="/search" element={
+        <div className="min-h-screen bg-gray-900 flex items-center justify-center">
+          <div className="text-center">
+            <h2 className="text-white text-2xl font-bold mb-4">Search Feature</h2>
+            <p className="text-gray-400">Search functionality coming soon!</p>
+          </div>
+        </div>
       } />
 
       <Route path="/watchlist" element={
