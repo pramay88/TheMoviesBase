@@ -1,6 +1,6 @@
 import React from "react";
 import { useState } from 'react';
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate, useLocation } from "react-router-dom";
 import Logo from "../assets/TheMoviesBase.png";
 import { auth } from "../firebaseConfig";
 import { signOut } from "firebase/auth";
@@ -9,8 +9,8 @@ import { useAuth } from "../context/authContext";
 function Navbar() {
   const { user } = useAuth();
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-  const [searchQuery, setSearchQuery] = useState("");
   const navigate = useNavigate();
+  const location = useLocation();
 
   const logoutHandler = async () => {
     try {
@@ -27,13 +27,8 @@ function Navbar() {
     return name[0].toUpperCase();
   };
 
-  const handleSearch = (e) => {
-    e.preventDefault();
-    if (searchQuery.trim()) {
-      navigate(`/search?q=${encodeURIComponent(searchQuery.trim())}`);
-      setSearchQuery("");
-      setIsMobileMenuOpen(false);
-    }
+  const isActiveRoute = (path) => {
+    return location.pathname === path;
   };
 
   return (
@@ -54,54 +49,48 @@ function Navbar() {
             <div className="hidden lg:flex items-center space-x-6">
               <Link
                 to="/"
-                className="text-white text-base font-semibold hover:text-gray-300 transition-colors duration-200"
+                className={`text-base font-semibold transition-all duration-200 ${
+                  isActiveRoute('/') 
+                    ? 'text-blue-400 border-b-2 border-blue-400 pb-1' 
+                    : 'text-white hover:text-gray-300'
+                }`}
               >
                 Home
               </Link>
               <Link
                 to="/movies"
-                className="text-white text-base font-semibold hover:text-gray-300 transition-colors duration-200"
+                className={`text-base font-semibold transition-all duration-200 ${
+                  isActiveRoute('/movies') 
+                    ? 'text-blue-400 border-b-2 border-blue-400 pb-1' 
+                    : 'text-white hover:text-gray-300'
+                }`}
               >
                 Movies
               </Link>
               <Link
+                to="/search"
+                className={`text-base font-semibold transition-all duration-200 flex items-center gap-2 ${
+                  location.pathname.startsWith('/search') 
+                    ? 'text-blue-400 border-b-2 border-blue-400 pb-1' 
+                    : 'text-white hover:text-gray-300'
+                }`}
+              >
+                <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                </svg>
+                Search
+              </Link>
+              <Link
                 to="/watchlist"
-                className="text-white text-base font-semibold hover:text-gray-300 transition-colors duration-200"
+                className={`text-base font-semibold transition-all duration-200 ${
+                  isActiveRoute('/watchlist') 
+                    ? 'text-blue-400 border-b-2 border-blue-400 pb-1' 
+                    : 'text-white hover:text-gray-300'
+                }`}
               >
                 Watchlist
               </Link>
             </div>
-          </div>
-
-          {/* Desktop Search Bar */}
-          <div className="hidden md:flex flex-1 max-w-md mx-4">
-            <form onSubmit={handleSearch} className="w-full">
-              <div className="relative">
-                <input
-                  type="text"
-                  value={searchQuery}
-                  onChange={(e) => setSearchQuery(e.target.value)}
-                  placeholder="Search movies..."
-                  className="w-full px-4 py-2 pl-10 bg-[#2C2C2C] text-white rounded-full border border-gray-600 focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500/50 transition-all duration-200"
-                />
-                <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                  <svg className="h-5 w-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
-                  </svg>
-                </div>
-                {searchQuery && (
-                  <button
-                    type="button"
-                    onClick={() => setSearchQuery("")}
-                    className="absolute inset-y-0 right-0 pr-3 flex items-center text-gray-400 hover:text-white"
-                  >
-                    <svg className="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
-                    </svg>
-                  </button>
-                )}
-              </div>
-            </form>
           </div>
 
           {/* Desktop User Section */}
@@ -156,37 +145,6 @@ function Navbar() {
             </svg>
           </button>
         </div>
-
-        {/* Mobile Search Bar */}
-        <div className="md:hidden mt-3">
-          <form onSubmit={handleSearch}>
-            <div className="relative">
-              <input
-                type="text"
-                value={searchQuery}
-                onChange={(e) => setSearchQuery(e.target.value)}
-                placeholder="Search movies..."
-                className="w-full px-4 py-2 pl-10 bg-[#2C2C2C] text-white rounded-full border border-gray-600 focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500/50 transition-all duration-200"
-              />
-              <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                <svg className="h-5 w-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
-                </svg>
-              </div>
-              {searchQuery && (
-                <button
-                  type="button"
-                  onClick={() => setSearchQuery("")}
-                  className="absolute inset-y-0 right-0 pr-3 flex items-center text-gray-400 hover:text-white"
-                >
-                  <svg className="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
-                  </svg>
-                </button>
-              )}
-            </div>
-          </form>
-        </div>
       </nav>
 
       {/* Mobile Menu Overlay */}
@@ -198,23 +156,46 @@ function Navbar() {
               <Link
                 to="/"
                 onClick={() => setIsMobileMenuOpen(false)}
-                className="text-white text-lg font-semibold hover:text-gray-300 transition-colors duration-200 py-2"
+                className={`text-lg font-semibold transition-colors duration-200 py-2 ${
+                  isActiveRoute('/') 
+                    ? 'text-blue-400' 
+                    : 'text-white hover:text-gray-300'
+                }`}
               >
-                Home
+                🏠 Home
               </Link>
               <Link
                 to="/movies"
                 onClick={() => setIsMobileMenuOpen(false)}
-                className="text-white text-lg font-semibold hover:text-gray-300 transition-colors duration-200 py-2"
+                className={`text-lg font-semibold transition-colors duration-200 py-2 ${
+                  isActiveRoute('/movies') 
+                    ? 'text-blue-400' 
+                    : 'text-white hover:text-gray-300'
+                }`}
               >
-                Movies
+                🎬 Movies
+              </Link>
+              <Link
+                to="/search"
+                onClick={() => setIsMobileMenuOpen(false)}
+                className={`text-lg font-semibold transition-colors duration-200 py-2 ${
+                  location.pathname.startsWith('/search') 
+                    ? 'text-blue-400' 
+                    : 'text-white hover:text-gray-300'
+                }`}
+              >
+                🔍 Search
               </Link>
               <Link
                 to="/watchlist"
                 onClick={() => setIsMobileMenuOpen(false)}
-                className="text-white text-lg font-semibold hover:text-gray-300 transition-colors duration-200 py-2"
+                className={`text-lg font-semibold transition-colors duration-200 py-2 ${
+                  isActiveRoute('/watchlist') 
+                    ? 'text-blue-400' 
+                    : 'text-white hover:text-gray-300'
+                }`}
               >
-                Watchlist
+                📋 Watchlist
               </Link>
               
               {/* Mobile User Section */}

@@ -11,6 +11,7 @@ import Signup from './pages/Signup';
 import PrivateRoute from './components/PrivateRoute';
 import { auth } from "./firebaseConfig";
 import { AuthProvider } from './context/authContext';
+import SearchPage from './components/SearchPage';
 
 const API_KEY = import.meta.env.VITE_TMDB_API_KEY;
 
@@ -77,15 +78,7 @@ function App() {
       {/* Add the missing /movies route */}
       <Route path="/movies" element={<MoviesPage />} />
 
-      {/* Add a search route - you can create a SearchPage component or redirect */}
-      <Route path="/search" element={
-        <div className="min-h-screen bg-gray-900 flex items-center justify-center">
-          <div className="text-center">
-            <h2 className="text-white text-2xl font-bold mb-4">Search Feature</h2>
-            <p className="text-gray-400">Search functionality coming soon!</p>
-          </div>
-        </div>
-      } />
+      <Route path="/search" element={<SearchPage />} />
 
       <Route path="/watchlist" element={
         <PrivateRoute>
